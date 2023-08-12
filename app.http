@@ -1,0 +1,14 @@
+
+GET http://localhost:3020/movies/
+### API 1 get movies list
+POST http://localhost:3020/movies/
+
+### API 2 create a new movie in the movie table
+GET http://localhost:3020/movies/:movieId
+### API 3 get a movie based on its movie ID
+
+PUT http://localhost:3020/movies/:movieId
+### API 4 update a movie based on movie ID
+
+DELETE http://localhost:3020/movies/:movieId
+### API 5 delete a movie based on movie ID
