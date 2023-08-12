@@ -12,3 +12,9 @@ PUT http://localhost:3020/movies/:movieId
 
 DELETE http://localhost:3020/movies/:movieId
 ### API 5 delete a movie based on movie ID
+
+GET http://localhost:3020/directors/
+###API 6 get directors list
+
+GET http://localhost:3020/directors/:directorId/movies/
+### API 7 returns a list of all movies directed by a specific director

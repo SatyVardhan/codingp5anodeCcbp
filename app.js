@@ -89,5 +89,30 @@ app.delete("/movies/:movieId/", async (request, response) => {
 // API 6 all directors from director table
 
 app.get("/directors/", async (request, response) => {
-  const getDirectorsQuery = `SELECT * FROM director`;
+  const getDirectorsQuery = `SELECT * FROM director;`;
+  const directorArray = await db.all(getDirectorsQuery);
+  const convertDirectorsArray = (ob) => {
+    return {
+      directorID: ob.director_id,
+      directorName: ob.director_name,
+    };
+  };
+  response.send(
+    directorArray.map((eachItem) => convertDirectorsArray(eachItem))
+  );
+});
+
+// API 7 get all movies directed by a specified director
+
+app.get("/directors/:directorId/movies/", async (request, response) => {
+  const { directorId } = request.params;
+  const getMoviesList = `
+    SELECT
+     *
+    FROM
+     movie
+    WHERE
+      director_id = ${directorId};`;
+  const booksArray = await db.all(getMoviesList);
+  response.send(movieList);
 });
