@@ -49,6 +49,7 @@ app.post("/movies/", async (request, response) => {
      (director_id,movie_name,lead_actor) VALUES
      (${directorId},'${movieName}','${leadActor}')`;
   const dbResponse = await db.run(createMovieQuery);
+
   response.send("Movie Successfully Added");
 });
 
@@ -58,13 +59,25 @@ app.get("/movies/:movieId/", async (request, response) => {
   const { movieId } = request.params;
   const getMovieNameByMovieid = `SELECT * FROM movie WHERE
     movie_id = ${movieId};`;
+  const changeFormat = (ob) => {
+    return {
+      movieId: ob.movie_id,
+      directorId: ob.director_id,
+      movieName: ob.movie_name,
+      leadActor: ob.lead_actor,
+    };
+  };
   const movieArray = await db.get(getMovieNameByMovieid);
-  response.send(movieArray);
+  response.send(
+    movieArray.map((item) => {
+      changeFormat(item);
+    })
+  );
 });
 
 // API 4  update movie details by movieid
 
-app.put("/movies/:moviesId/", async (request, response) => {
+app.put("/movies/:movieId/", async (request, response) => {
   const movieDetails = request.body;
   const { movieId } = request.params;
   const { directorId, movieName, leadActor } = movieDetails;
@@ -93,7 +106,7 @@ app.get("/directors/", async (request, response) => {
   const directorArray = await db.all(getDirectorsQuery);
   const convertDirectorsArray = (ob) => {
     return {
-      directorID: ob.director_id,
+      directorId: ob.director_id,
       directorName: ob.director_name,
     };
   };
